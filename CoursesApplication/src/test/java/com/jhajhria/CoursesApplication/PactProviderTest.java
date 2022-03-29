@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Provider("CoursesCatalogue")
+@Provider("CoursesCatalog")
 @PactFolder("pacts")
 public class PactProviderTest {
 
