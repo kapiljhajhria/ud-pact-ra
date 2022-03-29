@@ -4,6 +4,27 @@
   },
   "interactions": [
     {
+      "description": "Appium course Does not exist",
+      "key": "d91dba35",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "Course Appium does not exist",
+          "params": {
+            "name": "Appium"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/getCourseByName/Appium"
+      },
+      "response": {
+        "status": 404
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
       "description": "Get the Appium course details",
       "key": "6ddb1c20",
       "pending": false,

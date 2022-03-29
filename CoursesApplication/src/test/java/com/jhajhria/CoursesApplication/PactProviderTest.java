@@ -7,11 +7,17 @@ import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.StateChangeAction;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
+import com.jhajhria.CoursesApplication.controller.AllCourseData;
+import com.jhajhria.CoursesApplication.repository.CoursesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+
+import java.util.Map;
+import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Provider("CoursesCatalog")
@@ -21,46 +27,84 @@ public class PactProviderTest {
     @LocalServerPort
     public int port;
 
+    @Autowired
+    CoursesRepository coursesRepository;
+
     @BeforeEach
-    public void setup(PactVerificationContext context)
-    {
+    public void setup(PactVerificationContext context) {
 
-        context.setTarget(new HttpTestTarget("localhost",port));
+        context.setTarget(new HttpTestTarget("localhost", port));
     }
 
-    @State(value = "courses exist",action = StateChangeAction.SETUP)
-    public void courseExistSetup(){
+    @State(value = "courses exist", action = StateChangeAction.SETUP)
+    public void courseExistSetup() {
         //setup state
-        
-    }
-    @State(value= "Course Appium exist",action= StateChangeAction.SETUP)
-    public void appiumCourseExist()
 
-    {
+    }
+
+    @State(value = "Course Appium exist", action = StateChangeAction.SETUP)
+    public void appiumCourseExist() {
         //appium
     }
 
-    @State(value = "courses exist",action = StateChangeAction.TEARDOWN)
-    public void courseExistTearDown(){
+    @State(value = "courses exist", action = StateChangeAction.TEARDOWN)
+    public void courseExistTearDown() {
         //teardown state
 
     }
 
 
-
-    @State(value= "Course Appium exist",action= StateChangeAction.TEARDOWN)
-    public void appiumCourseExistTearDown()
-
-    {
+    @State(value = "Course Appium exist", action = StateChangeAction.TEARDOWN)
+    public void appiumCourseExistTearDown() {
         //
     }
 
-    @TestTemplate // it means test can run multiple times based on how many times this end point test is called by other tests.  pact mock end point
-    @ExtendWith(PactVerificationInvocationContextProvider.class)
-    public void pactVerificationTest(PactVerificationContext context){
-        context.verifyInteraction();
+
+    @State(value = "Course Appium does not exist", action = StateChangeAction.SETUP)
+    public void appiumCourseDoNotExist(Map<String, Object> params) {
+
+        String name = (String) params.get("name");
+
+        //to delete the appium record in database
+
+
+        Optional<AllCourseData> del = coursesRepository.findById(name);//mock
+
+        if (del.isPresent()) {
+            coursesRepository.deleteById("Appium");
+        }
+
+
     }
-}
+
+    @State(value = "Course Appium does not exist", action = StateChangeAction.TEARDOWN)
+    public void appiumCourseDoNotExistTearDown(Map<String, Object> params) {
+        ////add appium record in database
+        String name = (String) params.get("name");
+        Optional<AllCourseData> del = coursesRepository.findById(name);//mock
+
+        if (!del.isPresent()) {
+
+            AllCourseData allCourseData = new AllCourseData();
+            allCourseData.setCourse_name("Appium");
+            allCourseData.setCategory("mobile");
+            allCourseData.setPrice(120);
+            allCourseData.setId("12");
+            coursesRepository.save(allCourseData);
+
+        }
+
+    }
+
+        @TestTemplate
+        // it means test can run multiple times based on how many times this end point test is called by other tests.  pact mock end point
+        @ExtendWith(PactVerificationInvocationContextProvider.class)
+        public void pactVerificationTest (PactVerificationContext context){
+            context.verifyInteraction();
+        }
+    }
+
+
 
 // define port number in the test class
 //define port folder for the test class
