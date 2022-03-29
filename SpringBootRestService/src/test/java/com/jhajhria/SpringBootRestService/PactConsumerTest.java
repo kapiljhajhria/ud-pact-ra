@@ -5,11 +5,13 @@ import au.com.dius.pact.consumer.dsl.PactDslJsonArray;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
-import au.com.dius.pact.core.model.RequestResponsePact;
+import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhajhria.SpringBootRestService.controller.LibraryController;
 import com.jhajhria.SpringBootRestService.controller.ProductsPrices;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +23,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class PactConsumerTest {
 
     @Pact(consumer = "CatalogConsumer")// for testAllProductsSum
-    public RequestResponsePact allCoursedDetailsPactConfig(PactDslWithProvider builder) throws JsonProcessingException {
+    public V4Pact AllCoursedDetailsPactConfig(PactDslWithProvider builder) throws JsonProcessingException {
         //
         return builder.given("courses exist").uponReceiving("getting all courses details").
                 path("/allCourseDetails").method("GET").willRespondWith().status(200).
                 body(PactDslJsonArray.arrayMinLike(2)
                         .stringType("course_name")//value is optional
                         .stringType("id")
-                        .stringType("price","12.0")
+                        .integerType("price",12)
                         .stringType("category")
-                        .closeObject()).toPact();
+                        ).toPact(V4Pact.class);
 
 
     }
@@ -41,12 +43,20 @@ public class PactConsumerTest {
     LibraryController libraryController;
 
     @Test
-    @PactTestFor(pactMethod = "allCoursedDetailsPactConfig",port = "9999")
+    @PactTestFor(pactMethod = "AllCoursedDetailsPactConfig",port = "9999")
     public void testAllProductsSum(MockServer mockServer) throws JsonProcessingException {
+        String expectedJson ="{\"booksPrice\":250,\"coursesPrice\":24}";//booksPrice is hardcoded
+
+
         //get allProductPrices depends on CourseApplication service.
         //So we need to mock the service. We will use @Pact for this and our consumer for this pact will
         //be this service. Which we are calling "CatalogConsumer"
         libraryController.setBaseUrl(mockServer.getUrl());
         ProductsPrices productPrices = libraryController.getProductPrices();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonObjStringActual = mapper.writeValueAsString(productPrices);
+
+        Assertions.assertEquals(expectedJson,jsonObjStringActual);
     }
 }
