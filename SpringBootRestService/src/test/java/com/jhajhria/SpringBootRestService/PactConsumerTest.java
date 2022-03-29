@@ -2,15 +2,18 @@ package com.jhajhria.SpringBootRestService;
 
 import au.com.dius.pact.consumer.MockServer;
 import au.com.dius.pact.consumer.dsl.PactDslJsonArray;
+import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhajhria.SpringBootRestService.controller.LibraryController;
 import com.jhajhria.SpringBootRestService.controller.ProductsPrices;
+import com.jhajhria.SpringBootRestService.controller.SpecificProduct;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,4 +73,43 @@ public class PactConsumerTest {
 
         Assertions.assertEquals(expectedJson,jsonObjStringActual);
     }
+
+
+    @Pact(consumer = "CatalogConsumer")
+    public V4Pact getCourseByName(PactDslWithProvider builder)
+
+    {
+        return builder.given("Course Appium exist")
+                .uponReceiving("Get the Appium course details")
+                .path("/getCourseByName/Appium")
+                .willRespondWith()
+                .status(200)
+                .body(new PactDslJsonBody()
+                        .integerType("price",44)
+                        .stringType("category","mobile")).toPact(V4Pact.class);
+
+    }
+
+
+    @Test
+    @PactTestFor(pactMethod="getCourseByName",port = "9999")
+
+    public void testByProductName(MockServer mockServer) throws JsonMappingException, JsonProcessingException
+
+    {
+
+        libraryController.setBaseUrl(mockServer.getUrl());
+
+        String expectedJson = "{\"product\":{\"book_name\":\"Appium\",\"id\":\"fdsefr343\",\"isbn\":\"fdsefr3\",\"aisle\":43,\"author\":\"verma\"},\"price\":44,\"category\":\"mobile\"}";
+
+        SpecificProduct specificProduct =libraryController.getProductFullDetails("Appium");
+
+        ObjectMapper obj = new ObjectMapper();
+        String jsonActual = obj.writeValueAsString(specificProduct);
+
+        Assertions.assertEquals(expectedJson, jsonActual);
+
+
+    }
+
 }
