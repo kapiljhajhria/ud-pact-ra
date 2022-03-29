@@ -20,36 +20,14 @@
         "body": {
           "content": [
             {
-              "category": "string",
-              "course_name": "string",
-              "id": "string",
-              "price": 12
+              "price": 10
             },
             {
-              "category": "string",
-              "course_name": "string",
-              "id": "string",
-              "price": 12
+              "price": 10
             }
           ],
           "contentType": "application/json; charset=UTF-8",
           "encoded": false
-        },
-        "generators": {
-          "body": {
-            "$[*].category": {
-              "size": 20,
-              "type": "RandomString"
-            },
-            "$[*].course_name": {
-              "size": 20,
-              "type": "RandomString"
-            },
-            "$[*].id": {
-              "size": 20,
-              "type": "RandomString"
-            }
-          }
         },
         "headers": {
           "Content-Type": [
@@ -64,30 +42,6 @@
                 {
                   "match": "type",
                   "min": 2
-                }
-              ]
-            },
-            "$[*].category": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].course_name": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$[*].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "type"
                 }
               ]
             },
