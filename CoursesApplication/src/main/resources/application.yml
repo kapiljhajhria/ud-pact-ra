@@ -1,0 +1,6 @@
+pactbroker:
+  host: https://kapiljhajhria.pactflow.io
+  port: ""
+  auth:
+    username: myemail@gmail.com
+    password: mypassword
