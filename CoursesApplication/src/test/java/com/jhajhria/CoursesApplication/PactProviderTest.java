@@ -33,11 +33,26 @@ public class PactProviderTest {
         //setup state
         
     }
+    @State(value= "Course Appium exist",action= StateChangeAction.SETUP)
+    public void appiumCourseExist()
+
+    {
+        //appium
+    }
 
     @State(value = "courses exist",action = StateChangeAction.TEARDOWN)
     public void courseExistTearDown(){
         //teardown state
 
+    }
+
+
+
+    @State(value= "Course Appium exist",action= StateChangeAction.TEARDOWN)
+    public void appiumCourseExistTearDown()
+
+    {
+        //
     }
 
     @TestTemplate // it means test can run multiple times based on how many times this end point test is called by other tests.  pact mock end point
