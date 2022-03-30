@@ -103,6 +103,7 @@ public class PactProviderTest {
         // it means test can run multiple times based on how many times this end point test is called by other tests.  pact mock end point
         @ExtendWith(PactVerificationInvocationContextProvider.class)
         public void pactVerificationTest (PactVerificationContext context){
+            System.setProperty("pact.verifier.publishResults", "true");
             context.verifyInteraction();
         }
     }
