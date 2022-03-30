@@ -48,3 +48,9 @@ mvn clean test -Dpact.verifier.publishResults=true
 mvn clean test -Dpact.verifier.publishResults=true -Dpact.provider.token=my-string-token
 
 ```
+
+## Publish Consumer Generated Pact to broker
+
+```bash
+mvn pact:publish -Dpact.consumer.token=my-token-here
+```
