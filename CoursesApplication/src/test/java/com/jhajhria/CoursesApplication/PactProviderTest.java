@@ -6,7 +6,8 @@ import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvide
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.StateChangeAction;
-import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
+import au.com.dius.pact.provider.junitsupport.loader.Authentication;
+import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
 import com.jhajhria.CoursesApplication.controller.AllCourseData;
 import com.jhajhria.CoursesApplication.repository.CoursesRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,8 @@ import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Provider("CoursesCatalog")
-@PactFolder("pacts")
+//@PactFolder("pacts")
+@PactUrl(urls = "https://kapiltechverito.pactflow.io/pacts/provider/CoursesCatalog/consumer/CatalogConsumer/latest", auth = @Authentication(token = "token_here"))
 public class PactProviderTest {
 
     @LocalServerPort
