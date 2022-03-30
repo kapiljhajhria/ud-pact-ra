@@ -23,7 +23,8 @@ import java.util.Optional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Provider("CoursesCatalog")
 //@PactFolder("pacts")
-@PactUrl(urls = "https://kapiltechverito.pactflow.io/pacts/provider/CoursesCatalog/consumer/CatalogConsumer/latest", auth = @Authentication(token = "token_here"))
+//@PactUrl(urls = "https://kapiltechverito.pactflow.io/pacts/provider/CoursesCatalog/consumer/CatalogConsumer/latest", auth = @Authentication(token = "token_here"))
+@PactBroker(url = "https://kapiltechverito.pactflow.io",authentication = @PactBrokerAuth(token = "token_here"))
 public class PactProviderTest {
 
     @LocalServerPort
