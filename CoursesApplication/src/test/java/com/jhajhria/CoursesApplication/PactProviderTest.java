@@ -106,6 +106,20 @@ public class PactProviderTest {
             System.setProperty("pact.verifier.publishResults", "true");
             context.verifyInteraction();
         }
+//    private void replaceAuthHeader(HttpRequest request) {
+//        if (request.containsHeader("Authorization")) {
+//            String header = "Bearer " + new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(new Date());
+//            request.removeHeaders("Authorization");
+//            request.addHeader("Authorization", header);
+//        }
+//    }
+
+        //publish contract testing result to pactflow
+        //@TestTemplate
+        //@ExtendWith(PactVerificationInvocationContextProvider.class)
+        //public void publishContractTest(PactVerificationContext context){
+        //    context.publishResults();
+        //}
     }
 
 
