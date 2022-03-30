@@ -61,6 +61,19 @@
 
 	<build>
 		<plugins>
+<!--			<plugin>-->
+<!--				<groupId>au.com.dius.pact.provider</groupId>-->
+<!--				<artifactId>maven</artifactId>-->
+<!--				<version>4.1.11</version>-->
+<!--				<configuration>-->
+
+<!--					<reports>-->
+<!--						<report>console</report>-->
+<!--						<report>json</report>-->
+<!--						<report>markdown</report>-->
+<!--					</reports>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
