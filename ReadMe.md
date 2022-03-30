@@ -36,3 +36,15 @@ docker run -e PACT_BROKER_DATABASE_USERNAME=postgres \
 -p 9292:9292 \
 pactfoundation/pact-broker 
 ```
+
+## Publish Pact Test results to broker
+
+```bash
+mvn clean test -Dpact.verifier.publishResults=true
+```
+
+## Provide token to verify the pact, using mvn system property
+```bash
+mvn clean test -Dpact.verifier.publishResults=true -Dpact.provider.token=my-string-token
+
+```

@@ -24,7 +24,7 @@ import java.util.Optional;
 @Provider("CoursesCatalog")
 //@PactFolder("pacts")
 //@PactUrl(urls = "https://kapiltechverito.pactflow.io/pacts/provider/CoursesCatalog/consumer/CatalogConsumer/latest", auth = @Authentication(token = "token_here"))
-@PactBroker(url = "https://kapiltechverito.pactflow.io",authentication = @PactBrokerAuth(token = "token_here"))
+@PactBroker(url = "https://kapiltechverito.pactflow.io",authentication = @PactBrokerAuth(token = "${pact.provider.token}"))
 public class PactProviderTest {
 
     @LocalServerPort
@@ -103,7 +103,7 @@ public class PactProviderTest {
         // it means test can run multiple times based on how many times this end point test is called by other tests.  pact mock end point
         @ExtendWith(PactVerificationInvocationContextProvider.class)
         public void pactVerificationTest (PactVerificationContext context){
-            System.setProperty("pact.verifier.publishResults", "true");
+//            System.setProperty("pact.verifier.publishResults", "true");
             context.verifyInteraction();
         }
 //    private void replaceAuthHeader(HttpRequest request) {
