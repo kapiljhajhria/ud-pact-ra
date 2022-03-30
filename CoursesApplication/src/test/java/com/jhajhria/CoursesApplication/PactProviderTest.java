@@ -6,8 +6,8 @@ import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvide
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.StateChangeAction;
-import au.com.dius.pact.provider.junitsupport.loader.Authentication;
-import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
+import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
+import au.com.dius.pact.provider.junitsupport.loader.PactBrokerAuth;
 import com.jhajhria.CoursesApplication.controller.AllCourseData;
 import com.jhajhria.CoursesApplication.repository.CoursesRepository;
 import org.junit.jupiter.api.BeforeEach;
