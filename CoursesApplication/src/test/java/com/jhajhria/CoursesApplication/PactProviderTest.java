@@ -35,7 +35,7 @@ public class PactProviderTest {
 
     @BeforeEach
     public void setup(PactVerificationContext context) {
-
+//        System.getProperties().setProperty("pact.verifier.publishResults", "true");
         context.setTarget(new HttpTestTarget("localhost", port));
     }
 
