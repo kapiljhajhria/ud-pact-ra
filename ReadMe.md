@@ -54,3 +54,5 @@ mvn clean test -Dpact.verifier.publishResults=true -Dpact.provider.token=my-stri
 ```bash
 mvn pact:publish -Dpact.consumer.token=my-token-here
 ```
+
+test commit
